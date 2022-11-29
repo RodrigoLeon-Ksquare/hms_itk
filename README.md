@@ -4,7 +4,7 @@ This is a repo for the HMS project
 
 # Models
 
-User model: This table will storage all the general information about the users regardless if is a patient,doctor or admin
+User model: This table will storage all the general information about the users regardless if is a patient,doctor or admin \
 User{
 id: number, //PK
 first_name: string,
