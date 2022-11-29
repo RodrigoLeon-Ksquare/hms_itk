@@ -15,18 +15,6 @@ email: string, \
 contactNumber: number, \
 } 
 
-User model: This table will storage all the general information about the users regardless if is a patient,doctor or admin \
-User{
-id: number, //PK
-first_name: string,
-last_name: string,
-birthday: string,
-age: number,
-gender: string, (Male,Female, Other)
-email: string,
-contactNumber: number,
-}
-
 Role model: This table will storage the roles that the user can have. In this case will be 3 roles patient, doctor or admin \
 Role{ \
 id: number, //PK \
