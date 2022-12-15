@@ -20,6 +20,7 @@ export class Appointments extends Model<
   declare id: number;
   declare appointment_date: string;
   declare appointment_hour: number;
+  declare description: string;
   //declare patient_id: number; preguntar si la FK son las relaciones
   //declare doctor_id: number; preguntar si la FK son las relaciones
 }
@@ -35,6 +36,7 @@ export const initAppointmentsModel = (sequelize: Sequelize) => {
       },
       appointment_date: DataTypes.DATE,
       appointment_hour: DataTypes.TIME,
+      description: DataTypes.STRING,
     },
     {
       sequelize, //instance of sequelize that reflects the conection
