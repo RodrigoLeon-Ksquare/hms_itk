@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,25 +12,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//DB conection
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const index_model_1 = require("./models/index.model");
-const admin = __importStar(require("firebase-admin"));
+//Start express server and sequelize
 const app_1 = __importDefault(require("./app"));
-const configDB_1 = __importDefault(require("./models/configDB"));
+const database_1 = require("./database/database");
+require("./models/user.models");
+require("./models/role.model");
+require("./models/userRole.model");
+require("./models/patient.model");
+require("./models/doctor.model");
+require("./models/admin.model");
+require("./models/appointment.model");
+function main() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            //await sequelize.authenticate();
+            yield database_1.sequelize.sync({ force: true });
+            console.log("Connection has been established succesfully");
+            app_1.default.listen(5000);
+            console.log("Server is listening on port", 5000);
+        }
+        catch (error) {
+            console.log("Unable to connect to the database", error);
+        }
+    });
+}
+main();
+/*
+import dotenv from "dotenv";
+dotenv.config();
+import { startSequelize } from "./models/index.model";
+//import * as admin from "firebase-admin";
+import app from "./app";
+import envs from "./models/configDB";
 const PORT = process.env.PORT;
-admin.initializeApp();
-const envRunning = process.env.ENVIRONMENT === "testing" ? configDB_1.default.test : configDB_1.default.dev;
-app_1.default.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const sequelize = (0, index_model_1.startSequelize)(envRunning.database, envRunning.passwd, envRunning.host, envRunning.username);
-        yield sequelize.sync({ force: process.env.ENVIRONMENT === "testing" });
-        console.info("DB and Express server is up and running!!!!");
-        console.info(process.env.ENVIRONMENT);
-    }
-    catch (error) {
-        console.error(error);
-        process.abort();
-    }
-}));
+
+//admin.initializeApp();
+
+//const envRunning = process.env.ENVIRONMENT === "testing" ? envs.test : envs.dev;
+dotenv.config();
+//const PORT = process.env.PORT;
+const DB_PASS = <string>process.env.DB_PASS;
+const DB_USER = <string>process.env.DB_USER;
+const DB_NAME = <string>process.env.DB_NAME;
+const DB_HOSTNAME = <string>process.env.DB_HOSTNAME;
+
+app.listen(PORT, async () => {
+  try {
+    const sequelize = startSequelize(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
+    await sequelize.sync();
+    console.info("DB and Express is up and running!!!");
+  } catch (error) {
+    console.error(error);
+    process.abort();
+  }
+});
+*/

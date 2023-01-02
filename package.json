@@ -4,6 +4,7 @@
   "description": "This is a repo for the HMS project",
   "main": "index.js",
   "scripts": {
+    "type": "module",
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "dev": "concurrently \"tsc --watch\" \"nodemon dist/index.js\""
