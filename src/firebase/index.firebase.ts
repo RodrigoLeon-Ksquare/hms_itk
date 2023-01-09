@@ -45,6 +45,13 @@ export const readUser = async (uid: string) => {
   return mapToUser(user);
 };
 
+export const getAllUsers = async () => {
+  const listOfUsers = await admin.auth().listUsers(10);
+  const users = listOfUsers.users.map(mapToUser);
+
+  return users;
+};
+
 export const updateUser = async (uid: string, displayName: string) => {
   const user = await admin.auth().updateUser(uid, {
     displayName,

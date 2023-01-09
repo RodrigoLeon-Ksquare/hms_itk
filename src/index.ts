@@ -1,6 +1,9 @@
 //Start express server and sequelize
 import app from "./app";
 import { sequelize } from "./database/database";
+import * as admin from "firebase-admin";
+import dotenv from "dotenv";
+dotenv.config(); //Carga variables de entorno
 /*
 import "./models/user.models";
 import "./models/role.model";
@@ -10,6 +13,8 @@ import "./models/doctor.model";
 import "./models/admin.model";
 import "./models/appointment.model";
 */
+
+admin.initializeApp();
 
 async function main() {
   try {
